@@ -1,18 +1,24 @@
 {
   "name": "ben",
   "version": "1.0.0",
-  "description": "Backend RESTful con Node.js, SOLID principles y flat routes",
+  "description": "Backend for academic advising and vocational test application",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
+    "test:db": "node bin/test-db.mjs",
     "test": "node --experimental-vm-modules node_modules/.bin/jest --passWithNoTests",
     "lint": "eslint src/ tests/"
   },
   "keywords": ["node", "rest", "api", "solid", "backend"],
   "license": "MIT",
   "dependencies": {
-    "express": "^4.21.0"
+    "express": "^4.21.0",
+    "mongoose": "^8.0.0",
+    "dotenv": "^16.4.0",
+    "cors": "^2.8.5",
+    "helmet": "^8.0.0",
+    "express-validator": "^7.2.0"
   },
   "devDependencies": {
     "jest": "^29.7.0",

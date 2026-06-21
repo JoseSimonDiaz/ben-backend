@@ -1,0 +1,50 @@
+import mongoose from 'mongoose';
+
+const answerSchema = new mongoose.Schema({
+  questionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Question',
+    required: true,
+  },
+  selectedOptionIndex: {
+    type: Number,
+    required: true,
+  },
+}, { _id: false });
+
+const quizSessionSchema = new mongoose.Schema({
+  email: {
+    type: String,
+    lowercase: true,
+    trim: true,
+    default: null,
+  },
+  answers: {
+    type: [answerSchema],
+    required: true,
+  },
+  preferredDuration: {
+    type: String,
+    enum: ['long', 'short'],
+    required: true,
+  },
+  recommendedCareerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Career',
+  },
+  matchPercentage: {
+    type: Number,
+  },
+  followUpSent: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+quizSessionSchema.index({ followUpSent: 1, createdAt: 1, email: 1 });
+
+export const QuizSession = mongoose.model('QuizSession', quizSessionSchema);
