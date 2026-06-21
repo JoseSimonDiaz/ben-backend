@@ -7,49 +7,50 @@ description: "Use when writing Node.js backend code. Covers: ES modules, Express
 
 ## Stack
 
-- **Runtime**: Node.js (versión LTS más reciente)
+- **Runtime**: Node.js (LTS)
 - **Framework**: Express 4.x
+- **Database**: MongoDB with Mongoose 8.x
+- **Validation**: express-validator
+- **Security**: helmet, cors
 - **Testing**: Jest
 - **Linting**: ESLint 9.x (flat config)
-- **Formato**: ES Modules (`"type": "module"` en package.json)
+- **Modules**: ES Modules (`"type": "module"`)
 
-## Módulos ES
+## Key libraries
+
+| Library | Purpose |
+|---------|---------|
+| `express` | HTTP server |
+| `mongoose` | MongoDB ODM |
+| `dotenv` | Environment variables |
+| `cors` | Cross-origin requests |
+| `helmet` | Security headers |
+| `express-validator` | Request validation |
+
+## Error handling
+
+Use `AppError` class and centralized middleware:
 
 ```js
-// Importar
-import express from 'express';
-import { router as rutaUsuarios } from './routes/ruta-usuarios.js';
-
-// Exportar
-export class ServicioUsuario {}
-export default app;
+import { AppError } from '../utils/AppError.js';
+throw new AppError('Not found', HTTP_STATUS.NOT_FOUND);
 ```
 
-## Manejo de errores
+All errors are caught by `catchAsync` wrapper and processed by `errorHandler.middleware.js`.
 
-Los errores se lanzan con `statusCode` y se capturan en el middleware centralizado:
-
-```js
-export class AppError extends Error {
-  constructor(mensaje, statusCode = 500) {
-    super(mensaje);
-    this.statusCode = statusCode;
-  }
-}
-```
-
-## Testing con Jest
-
-Los tests van en `tests/` con estructura espejo a `src/`:
+## Project structure
 
 ```
-tests/
-  routes/
-    ruta-usuarios.test.js
-  services/
-    servicio-usuario.test.js
+src/
+├── config/          # Centralized env vars + DB connection
+├── controllers/     # Request/response handling
+├── middlewares/      # Validation, auth, error handling
+├── models/          # Mongoose schemas
+├── routes/          # Route definitions with validation
+├── services/        # Business logic
+└── utils/           # Shared utilities
 ```
 
-## ESLint
+## Testing with Jest
 
-Usar flat config (`eslint.config.js`) con reglas para ES Modules y Node.js.
+Tests mirror `src/` structure under `tests/`.
