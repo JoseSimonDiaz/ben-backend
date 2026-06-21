@@ -1,7 +1,7 @@
 import app from './src/app.js';
+import { connectDatabase } from './src/config/db.js';
+import { config } from './src/config/index.js';
 
-const PORT = process.env.PORT || 3000;
+await connectDatabase();
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en puerto ${PORT}`);
-});
+app.listen(config.port);

@@ -1,54 +1,51 @@
 ---
 name: solid-rest-api
-description: "Use when building or reviewing REST APIs with SOLID principles. Covers: flat route naming (ruta-usuarios, NOT rutas/usuarios), single-responsibility controllers, dependency-injected services, repository pattern, and error-handling middleware."
+description: "Use when building or reviewing REST APIs with SOLID principles. Covers: flat route naming, single-responsibility controllers, dependency-injected services, repository pattern, and error-handling middleware."
 ---
 
 # SOLID + REST API
 
-## Reglas de arquitectura
+## Layer separation
 
-### 1. Rutas planas con guiones (NO anidadas)
+| Layer | Responsibility | Example |
+|-------|---------------|---------|
+| `routes/` | HTTP verb + validation + delegate to controller | `quiz.routes.js` |
+| `controllers/` | Extract input, call service, send response | `quiz.controller.js` |
+| `services/` | Pure business logic, no Express/HTTP knowledge | `matching.service.js` |
+| `models/` | Mongoose schema + indexes | `Career.model.js` |
+| `middlewares/` | Cross-cutting: auth, validation, errors | `adminAuth.middleware.js` |
 
-Cada recurso es una ruta plana con guiones. Sin plurales, sin anidamiento.
+## Dependency injection
 
+Controllers receive services via constructor. Routes receive controllers via factory function.
+
+```js
+// app.js — wiring layer
+const matchingService = new MatchingService();
+const quizController = new QuizController(matchingService);
+app.use('/api/quiz', createQuizRouter(quizController));
 ```
-Correcto:        /api/ruta-usuarios
-                 /api/ruta-productos
-                 /api/ruta-pedidos
-                 /api/ruta-autenticacion
 
-Incorrecto:      /api/usuarios
-                 /api/rutas/usuarios
-                 /api/v1/users
-                 /api/productos/123/comentarios
+## Code constraints
+
+- **No imperative loops**: No `map`, `filter`, `forEach`, `for`, `while`. Use recursion or MongoDB aggregation.
+- **No nested ifs**: Use guard clauses and early returns.
+- **No console.log**: No console in production code.
+- **No magic strings in comparisons**: Use constants from `errorTypes.js`, `httpStatus.js`, `config/index.js`.
+
+## HTTP status codes
+
+Always use `HTTP_STATUS` constants:
+```js
+import { HTTP_STATUS } from '../utils/httpStatus.js';
+res.status(HTTP_STATUS.CREATED).json(result);
 ```
 
-### 2. SOLID en capas
+## Response format
 
-Cada capa tiene UNA responsabilidad:
-
-| Capa | Responsabilidad |
-|------|----------------|
-| `routes/` | Define ruta + verbo HTTP, delega al controlador |
-| `controllers/` | Recibe req/res, valida entrada, llama al servicio, responde |
-| `services/` | Lógica de negocio pura, sin conocer Express |
-| `repositories/` | Acceso a datos (BD, API externa, memoria) |
-| `middlewares/` | Cross-cutting: errores, auth, logging, validación |
-| `models/` | Schemas/DTOs, sin comportamiento de negocio |
-| `validators/` | Reglas de validación de entrada |
-
-### 3. Principios SOLID aplicados
-
-- **S**: Cada archivo = una responsabilidad. Un controlador no consulta BD.
-- **O**: Servicios y repositorios se extienden por composición, no modificando el original.
-- **L**: Los controladores pueden heredar de una base común si comparten patrones.
-- **I**: Interfaces pequeñas y específicas. Cada servicio expone solo lo que necesita.
-- **D**: Las capas superiores dependen de abstracciones (inyección por constructor), no de implementaciones concretas.
-
-### 4. Convenciones de código
-
-- ES Modules (`import`/`export`) siempre
-- Nombres en español con guiones para archivos de ruta: `ruta-usuarios.js`
-- Clases con nombre PascalCase en español: `ControladorUsuario`, `ServicioUsuario`
-- Verbos HTTP semánticos: GET lista, POST crea, PUT reemplaza, PATCH parcial, DELETE elimina
-- Códigos de estado explícitos: 201 en creación, 204 sin contenido, 400 bad request, 404 not found
+No `success: true` wrapper. Status code is sufficient. Return data directly:
+```js
+res.status(HTTP_STATUS.OK).json(careers);          // GET list
+res.status(HTTP_STATUS.CREATED).json(newItem);     // POST create
+res.status(HTTP_STATUS.NO_CONTENT).end();           // DELETE
+```
