@@ -2,6 +2,7 @@ import { Question } from '../models/Question.model.js';
 import { Career } from '../models/Career.model.js';
 import { QuizSession } from '../models/QuizSession.model.js';
 import { extractField, findById } from '../utils/arrayHelpers.js';
+import { PREFERRED_DURATIONS, CAREER_DURATION_THRESHOLD } from '../constants/domain.js';
 
 function aggregateScores(answers, questions, index, profile) {
   if (index >= answers.length) return profile;
@@ -47,11 +48,11 @@ function filterByDuration(careers, preferredDuration, index, accumulator) {
   if (index >= careers.length) return accumulator;
 
   const currentCareer = careers[index];
-  const isShortCareer = currentCareer.durationYears < 4;
+  const isShortCareer = currentCareer.durationYears < CAREER_DURATION_THRESHOLD;
 
-  if (preferredDuration === 'short' && isShortCareer) {
+  if (preferredDuration === PREFERRED_DURATIONS.SHORT && isShortCareer) {
     accumulator.push(currentCareer);
-  } else if (preferredDuration === 'long' && !isShortCareer) {
+  } else if (preferredDuration === PREFERRED_DURATIONS.LONG && !isShortCareer) {
     accumulator.push(currentCareer);
   }
 
