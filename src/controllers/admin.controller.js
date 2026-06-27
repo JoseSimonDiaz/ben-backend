@@ -1,9 +1,12 @@
 import { Faculty } from '../models/Faculty.model.js';
 import { Career } from '../models/Career.model.js';
-import { Question } from '../models/Question.model.js';
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 
 export class AdminController {
+  constructor(questionService) {
+    this.questionService = questionService;
+  }
+
   createFaculty = async (request, response) => {
     const { name, description } = request.body;
     const createdFaculty = await Faculty.create({ name, description });
@@ -36,12 +39,14 @@ export class AdminController {
   };
 
   createQuestion = async (request, response) => {
-    const { questionText, category, options, order } = request.body;
-    const createdQuestion = await Question.create({
+    const { questionText, category, options, order, target, questionType } = request.body;
+    const createdQuestion = await this.questionService.create({
       questionText,
       category,
       options,
       order,
+      target,
+      questionType,
     });
 
     response.status(HTTP_STATUS.CREATED).json(createdQuestion);
