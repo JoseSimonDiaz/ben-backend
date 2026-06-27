@@ -2,7 +2,7 @@ import { Question } from '../models/Question.model.js';
 import { Career } from '../models/Career.model.js';
 import { QuizSession } from '../models/QuizSession.model.js';
 import { extractField, findById } from '../utils/arrayHelpers.js';
-import { PREFERRED_DURATIONS, CAREER_DURATION_THRESHOLD } from '../constants/domain.js';
+import { PREFERRED_DURATIONS, CAREER_DURATION_THRESHOLD, QUESTION_TYPES } from '../constants/domain.js';
 
 function aggregateScores(answers, questions, index, profile) {
   if (index >= answers.length) return profile;
@@ -101,7 +101,7 @@ function findMaximumProfileScore(questions) {
 export class MatchingService {
   async calculateProfile(answers) {
     const questionIds = extractField(answers, 'questionId', 0, []);
-    const questions = await Question.find({ _id: { $in: questionIds } });
+    const questions = await Question.find({ _id: { $in: questionIds }, questionType: QUESTION_TYPES.MULTIPLE_CHOICE });
     const zeroProfile = { logical: 0, creative: 0, social: 0, investigative: 0 };
 
     return aggregateScores(answers, questions, 0, zeroProfile);
@@ -123,7 +123,7 @@ export class MatchingService {
 
     const bestMatch = locateBestCareer(filteredCareers, userProfile, 1, initialMatch);
 
-    const allQuestions = await Question.find();
+    const allQuestions = await Question.find({ questionType: QUESTION_TYPES.MULTIPLE_CHOICE });
     const maxProfileScore = findMaximumProfileScore(allQuestions);
     const zeroSkills = { logical: 0, creative: 0, social: 0, investigative: 0 };
     const maxPossibleDistance = calculateEuclideanDistance(maxProfileScore, zeroSkills);

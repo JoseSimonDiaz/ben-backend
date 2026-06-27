@@ -39,13 +39,14 @@ export class AdminController {
   };
 
   createQuestion = async (request, response) => {
-    const { questionText, category, options, order, target } = request.body;
+    const { questionText, category, options, order, target, questionType } = request.body;
     const createdQuestion = await this.questionService.create({
       questionText,
       category,
       options,
       order,
       target,
+      questionType,
     });
 
     response.status(HTTP_STATUS.CREATED).json(createdQuestion);

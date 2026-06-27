@@ -16,3 +16,10 @@ export const PREFERRED_DURATIONS = Object.freeze({
 });
 
 export const CAREER_DURATION_THRESHOLD = 4;
+
+export const QUESTION_TYPES = Object.freeze({
+  MULTIPLE_CHOICE: 'multiple_choice',
+  TEXT: 'text',
+  NUMBER: 'number',
+  RATING: 'rating',
+});
