@@ -1,8 +1,17 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { QUESTION_TARGETS, QUESTION_CATEGORIES, QUESTION_TYPES } from '../constants/domain.js';
+
+export const mongoIdParam = [
+  param('id').isMongoId().withMessage('Invalid ID'),
+];
 
 export const facultyCreationValidation = [
   body('name').isString().trim().notEmpty(),
+];
+
+export const facultyUpdateValidation = [
+  body('name').optional().isString().trim().notEmpty(),
+  body('description').optional().isString(),
 ];
 
 export const careerCreationValidation = [
