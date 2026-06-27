@@ -4,4 +4,4 @@ import { config } from './src/config/index.js';
 
 await connectDatabase();
 
-app.listen(config.port);
+app.listen(config.PORT);
