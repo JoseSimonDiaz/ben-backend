@@ -9,6 +9,10 @@ import {
   getCareersByDuration,
   getCareerStatistics,
 } from '../tools/career.tools.js';
+import {
+  getExperiencesByCareer,
+  getExperienceSummary,
+} from '../tools/experience.tools.js';
 import { AppError } from '../utils/AppError.js';
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 
@@ -18,6 +22,8 @@ const tools = {
   getCareerById,
   getCareersByDuration,
   getCareerStatistics,
+  getExperiencesByCareer,
+  getExperienceSummary,
 };
 
 export class AIService {
