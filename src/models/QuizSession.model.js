@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { PREFERRED_DURATIONS } from '../constants/domain.js';
 
 const answerSchema = new mongoose.Schema({
   questionId: {
@@ -25,7 +26,7 @@ const quizSessionSchema = new mongoose.Schema({
   },
   preferredDuration: {
     type: String,
-    enum: ['long', 'short'],
+    enum: Object.values(PREFERRED_DURATIONS),
     required: true,
   },
   recommendedCareerId: {
