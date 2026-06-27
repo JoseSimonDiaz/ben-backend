@@ -53,7 +53,7 @@ const careerService = new CareerService();
 const quizController = new QuizController(matchingService, emailService);
 const careerController = new CareerController(statsService);
 const experienceController = new ExperienceController();
-const adminController = new AdminController(questionService, facultyService, careerService);
+const adminController = new AdminController(questionService, facultyService, careerService, statsService);
 const chatController = new ChatController(aiService);
 const publicController = new PublicController(questionService, facultyService, careerService);
 

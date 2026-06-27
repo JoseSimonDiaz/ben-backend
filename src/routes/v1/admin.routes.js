@@ -14,6 +14,7 @@ import {
 export function createAdminRouter(adminController) {
   const router = Router();
 
+  router.get('/stats', catchAsync(adminController.getDashboardStats));
   router.get('/faculties', catchAsync(adminController.getAllFaculties));
   router.get('/faculties/:id', validate(mongoIdParam), catchAsync(adminController.getFacultyById));
   router.post('/faculties', validate(facultyCreationValidation), catchAsync(adminController.createFaculty));

@@ -1,11 +1,18 @@
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 
 export class AdminController {
-  constructor(questionService, facultyService, careerService) {
+  constructor(questionService, facultyService, careerService, statsService) {
     this.questionService = questionService;
     this.facultyService = facultyService;
     this.careerService = careerService;
+    this.statsService = statsService;
   }
+
+  getDashboardStats = async (_request, response) => {
+    const stats = await this.statsService.getDashboardStats();
+
+    response.status(HTTP_STATUS.OK).json(stats);
+  };
 
   getAllFaculties = async (_request, response) => {
     const faculties = await this.facultyService.findAll();
