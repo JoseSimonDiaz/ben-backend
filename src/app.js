@@ -15,6 +15,7 @@ import { EmailService } from './services/email.service.js';
 import { AIService } from './services/ai.service.js';
 import { QuestionService } from './services/question.service.js';
 import { FacultyService } from './services/faculty.service.js';
+import { CareerService } from './services/career.service.js';
 
 import { createQuizRouter } from './routes/v1/quiz.routes.js';
 import { createCareerRouter } from './routes/v1/career.routes.js';
@@ -47,13 +48,14 @@ const statsService = new StatsService();
 const aiService = new AIService(config.API_AGENT_IA_KEY);
 const questionService = new QuestionService();
 const facultyService = new FacultyService();
+const careerService = new CareerService();
 
 const quizController = new QuizController(matchingService, emailService);
 const careerController = new CareerController(statsService);
 const experienceController = new ExperienceController();
 const adminController = new AdminController(questionService);
 const chatController = new ChatController(aiService);
-const publicController = new PublicController(questionService, facultyService);
+const publicController = new PublicController(questionService, facultyService, careerService);
 
 app.use('/api/v1/quiz', validate(quizSubmissionValidation), createQuizRouter(quizController));
 app.use('/api/v1/careers', validate(careerStatsValidation), createCareerRouter(careerController));

@@ -7,5 +7,6 @@ export function createPublicRouter(publicController) {
   const router = Router();
   router.get('/questions', validate(publicQuestionsValidation), catchAsync(publicController.getQuestions));
   router.get('/faculties', catchAsync(publicController.getFaculties));
+  router.get('/careers', catchAsync(publicController.getCareers));
   return router;
 }

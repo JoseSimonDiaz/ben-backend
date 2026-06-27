@@ -1,9 +1,10 @@
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 
 export class PublicController {
-  constructor(questionService, facultyService) {
+  constructor(questionService, facultyService, careerService) {
     this.questionService = questionService;
     this.facultyService = facultyService;
+    this.careerService = careerService;
   }
 
   getQuestions = async (request, response) => {
@@ -18,5 +19,11 @@ export class PublicController {
     const faculties = await this.facultyService.findAll();
 
     response.status(HTTP_STATUS.OK).json(faculties);
+  };
+
+  getCareers = async (_request, response) => {
+    const careers = await this.careerService.findAll();
+
+    response.status(HTTP_STATUS.OK).json(careers);
   };
 }
