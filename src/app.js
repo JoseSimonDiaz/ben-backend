@@ -7,6 +7,7 @@ import { CareerController } from './controllers/career.controller.js';
 import { ExperienceController } from './controllers/experience.controller.js';
 import { AdminController } from './controllers/admin.controller.js';
 import { ChatController } from './controllers/chat.controller.js';
+import { PublicController } from './controllers/public.controller.js';
 
 import { MatchingService } from './services/matching.service.js';
 import { StatsService } from './services/stats.service.js';
@@ -19,11 +20,13 @@ import { createCareerRouter } from './routes/v1/career.routes.js';
 import { createExperienceRouter } from './routes/v1/experience.routes.js';
 import { createChatRouter } from './routes/v1/chat.routes.js';
 import { createAdminRouter } from './routes/v1/admin.routes.js';
+import { createPublicRouter } from './routes/v1/public.routes.js';
 
 import { quizSubmissionValidation } from './validators/quiz.validator.js';
 import { careerStatsValidation } from './validators/career.validator.js';
 import { experienceSubmissionValidation } from './validators/experience.validator.js';
 import { chatValidation } from './validators/chat.validator.js';
+import { publicQuestionsValidation } from './validators/public.validator.js';
 
 import { validate } from './middlewares/validation.middleware.js';
 import { adminAuthentication } from './middlewares/adminAuth.middleware.js';
@@ -49,11 +52,13 @@ const careerController = new CareerController(statsService);
 const experienceController = new ExperienceController();
 const adminController = new AdminController(questionService);
 const chatController = new ChatController(aiService);
+const publicController = new PublicController(questionService);
 
 app.use('/api/v1/quiz', validate(quizSubmissionValidation), createQuizRouter(quizController));
 app.use('/api/v1/careers', validate(careerStatsValidation), createCareerRouter(careerController));
 app.use('/api/v1/experiences', validate(experienceSubmissionValidation), createExperienceRouter(experienceController));
 app.use('/api/v1/chat', validate(chatValidation), createChatRouter(chatController));
+app.use('/api/v1', validate(publicQuestionsValidation), createPublicRouter(publicController));
 
 app.use('/api/v1/admin', adminAuthentication, createAdminRouter(adminController));
 
