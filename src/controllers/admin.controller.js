@@ -147,6 +147,25 @@ export class AdminController {
     response.status(HTTP_STATUS.NO_CONTENT).send();
   };
 
+  getAllQuestions = async (_request, response) => {
+    const questions = await this.questionService.findAll();
+
+    response.status(HTTP_STATUS.OK).json(questions);
+  };
+
+  getQuestionById = async (request, response) => {
+    const { id } = request.params;
+
+    const question = await this.questionService.findById(id);
+
+    if (!question) {
+      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Question not found' });
+      return;
+    }
+
+    response.status(HTTP_STATUS.OK).json(question);
+  };
+
   createQuestion = async (request, response) => {
     const { questionText, category, options, order, target, questionType } = request.body;
 
@@ -160,5 +179,39 @@ export class AdminController {
     });
 
     response.status(HTTP_STATUS.CREATED).json(createdQuestion);
+  };
+
+  updateQuestion = async (request, response) => {
+    const { id } = request.params;
+    const { questionText, category, options, order, target, questionType } = request.body;
+
+    const updatedQuestion = await this.questionService.update(id, {
+      questionText,
+      category,
+      options,
+      order,
+      target,
+      questionType,
+    });
+
+    if (!updatedQuestion) {
+      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Question not found' });
+      return;
+    }
+
+    response.status(HTTP_STATUS.OK).json(updatedQuestion);
+  };
+
+  deleteQuestion = async (request, response) => {
+    const { id } = request.params;
+
+    const deletedQuestion = await this.questionService.deleteById(id);
+
+    if (!deletedQuestion) {
+      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Question not found' });
+      return;
+    }
+
+    response.status(HTTP_STATUS.NO_CONTENT).send();
   };
 }

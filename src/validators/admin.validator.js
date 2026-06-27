@@ -49,3 +49,25 @@ export const questionCreationValidation = [
     .isArray({ min: 2 }),
   body('order').optional().isInt({ min: 0 }),
 ];
+
+export const questionUpdateValidation = [
+  body('questionText').optional().isString().trim().notEmpty(),
+  body('questionType')
+    .optional()
+    .isIn(Object.values(QUESTION_TYPES)),
+  body('target')
+    .optional()
+    .isIn(Object.values(QUESTION_TARGETS)),
+  body('category')
+    .optional()
+    .if((_value, { req }) => {
+      const currentType = req.body.questionType || QUESTION_TYPES.MULTIPLE_CHOICE;
+      return currentType === QUESTION_TYPES.MULTIPLE_CHOICE && req.body.target !== QUESTION_TARGETS.GRADUATE;
+    })
+    .isIn(Object.values(QUESTION_CATEGORIES)),
+  body('options')
+    .optional()
+    .if((_value, { req }) => !req.body.questionType || req.body.questionType === QUESTION_TYPES.MULTIPLE_CHOICE)
+    .isArray({ min: 2 }),
+  body('order').optional().isInt({ min: 0 }),
+];
