@@ -7,8 +7,6 @@ export class AdminController {
     this.careerService = careerService;
   }
 
-  // --- Faculties ---
-
   getAllFaculties = async (_request, response) => {
     const faculties = await this.facultyService.findAll();
 
@@ -63,7 +61,24 @@ export class AdminController {
     response.status(HTTP_STATUS.NO_CONTENT).send();
   };
 
-  // --- Careers ---
+  getAllCareers = async (_request, response) => {
+    const careers = await this.careerService.findAll();
+
+    response.status(HTTP_STATUS.OK).json(careers);
+  };
+
+  getCareerById = async (request, response) => {
+    const { id } = request.params;
+
+    const career = await this.careerService.findById(id);
+
+    if (!career) {
+      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Career not found' });
+      return;
+    }
+
+    response.status(HTTP_STATUS.OK).json(career);
+  };
 
   createCareer = async (request, response) => {
     const {
@@ -89,7 +104,48 @@ export class AdminController {
     response.status(HTTP_STATUS.CREATED).json(createdCareer);
   };
 
-  // --- Questions ---
+  updateCareer = async (request, response) => {
+    const { id } = request.params;
+    const {
+      facultyId,
+      name,
+      description,
+      officialDuration,
+      durationYears,
+      keywords,
+      requiredSkills,
+    } = request.body;
+
+    const updatedCareer = await this.careerService.update(id, {
+      facultyId,
+      name,
+      description,
+      officialDuration,
+      durationYears,
+      keywords,
+      requiredSkills,
+    });
+
+    if (!updatedCareer) {
+      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Career not found' });
+      return;
+    }
+
+    response.status(HTTP_STATUS.OK).json(updatedCareer);
+  };
+
+  deleteCareer = async (request, response) => {
+    const { id } = request.params;
+
+    const deletedCareer = await this.careerService.deleteById(id);
+
+    if (!deletedCareer) {
+      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Career not found' });
+      return;
+    }
+
+    response.status(HTTP_STATUS.NO_CONTENT).send();
+  };
 
   createQuestion = async (request, response) => {
     const { questionText, category, options, order, target, questionType } = request.body;

@@ -21,6 +21,15 @@ export const careerCreationValidation = [
   body('durationYears').isInt({ min: 1 }),
 ];
 
+export const careerUpdateValidation = [
+  body('name').optional().isString().trim().notEmpty(),
+  body('facultyId').optional().isMongoId(),
+  body('officialDuration').optional().isString().notEmpty(),
+  body('durationYears').optional().isInt({ min: 1 }),
+  body('keywords').optional().isArray(),
+  body('requiredSkills').optional().isObject(),
+];
+
 export const questionCreationValidation = [
   body('questionText').isString().trim().notEmpty(),
   body('questionType')
