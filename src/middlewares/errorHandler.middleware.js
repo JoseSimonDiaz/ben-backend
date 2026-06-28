@@ -1,6 +1,7 @@
 import { AppError } from '../utils/AppError.js';
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 import { MONGOOSE_ERRORS, NODE_ENVIRONMENTS, BUILT_IN_ERRORS } from '../utils/errorTypes.js';
+import { config } from '../config/index.js';
 
 function handleCastError(error) {
   const message = `Invalid ${error.path}: ${error.value}`;
@@ -71,7 +72,7 @@ export function errorHandler(error, request, response, _next) {
     processedError = new AppError('Invalid JSON payload', HTTP_STATUS.BAD_REQUEST);
   }
 
-  if (process.env.NODE_ENV === NODE_ENVIRONMENTS.DEVELOPMENT) {
+  if (config.NODE_ENVIRONMENT === NODE_ENVIRONMENTS.DEVELOPMENT) {
     sendErrorDevelopment(processedError, request, response);
     return;
   }

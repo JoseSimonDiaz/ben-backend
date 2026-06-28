@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { config } from '../src/config/index.js';
 
 async function testDatabaseConnection() {
-  const targetUri = process.argv[2] || config.mongoUri;
+  const targetUri = process.argv[2] || config.MONGODB_URI;
 
   console.log(`\n🔌 Testing MongoDB connection...`);
   console.log(`   URI: ${targetUri.replace(/\/\/([^:]+):([^@]+)@/, '//$1:****@')}\n`);

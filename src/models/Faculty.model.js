@@ -15,6 +15,4 @@ const facultySchema = new mongoose.Schema({
   },
 });
 
-facultySchema.index({ name: 1 });
-
 export const Faculty = mongoose.model('Faculty', facultySchema);

@@ -1,7 +1,10 @@
-import { CareerExperience } from '../models/CareerExperience.model.js';
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 
 export class ExperienceController {
+  constructor(experienceService) {
+    this.experienceService = experienceService;
+  }
+
   submit = async (request, response) => {
     const {
       careerId,
@@ -15,10 +18,7 @@ export class ExperienceController {
       reviewText,
     } = request.body;
 
-    const existingExperience = await CareerExperience.findOne({
-      careerId,
-      collaboratorEmail,
-    });
+    const existingExperience = await this.experienceService.findOne(careerId, collaboratorEmail);
 
     if (existingExperience) {
       response.status(HTTP_STATUS.CONFLICT).json({
@@ -27,7 +27,7 @@ export class ExperienceController {
       return;
     }
 
-    const createdExperience = await CareerExperience.create({
+    const createdExperience = await this.experienceService.create({
       careerId,
       collaboratorName,
       collaboratorEmail,

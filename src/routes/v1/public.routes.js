@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { catchAsync } from '../utils/catchAsync.js';
+import { catchAsync } from '../../utils/catchAsync.js';
 import { validate } from '../../middlewares/validation.middleware.js';
 import { publicQuestionsValidation } from '../../validators/public.validator.js';
 

@@ -3,6 +3,8 @@ import { Career } from '../models/Career.model.js';
 import { QuizSession } from '../models/QuizSession.model.js';
 import { extractField, findById } from '../utils/arrayHelpers.js';
 import { PREFERRED_DURATIONS, CAREER_DURATION_THRESHOLD, QUESTION_TYPES } from '../constants/domain.js';
+import { AppError } from '../utils/AppError.js';
+import { HTTP_STATUS } from '../utils/httpStatus.js';
 
 function aggregateScores(answers, questions, index, profile) {
   if (index >= answers.length) return profile;
@@ -138,6 +140,10 @@ export class MatchingService {
   async processSubmission(answers, preferredDuration) {
     const userProfile = await this.calculateProfile(answers);
     const matchResult = await this.findBestCareer(userProfile, preferredDuration);
+
+    if (!matchResult) {
+      throw new AppError('No careers match the selected duration', HTTP_STATUS.NOT_FOUND);
+    }
 
     const quizSession = await QuizSession.create({
       answers,
