@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { catchAsync } from '../utils/catchAsync.js';
+import { catchAsync } from '../../utils/catchAsync.js';
 
 export function createQuizRouter(quizController) {
   const router = Router();
