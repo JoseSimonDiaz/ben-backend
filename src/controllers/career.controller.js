@@ -1,15 +1,15 @@
-import { Career } from '../models/Career.model.js';
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 
 export class CareerController {
-  constructor(statsService) {
+  constructor(statsService, careerService) {
     this.statsService = statsService;
+    this.careerService = careerService;
   }
 
   getStatistics = async (request, response) => {
     const { id } = request.params;
 
-    const existingCareer = await Career.findById(id);
+    const existingCareer = await this.careerService.findById(id);
     if (!existingCareer) {
       response.status(HTTP_STATUS.NOT_FOUND).json({
         message: 'Career not found',

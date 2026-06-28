@@ -1,6 +1,5 @@
 import { Faculty } from '../models/Faculty.model.js';
 import { Career } from '../models/Career.model.js';
-import { StatsService } from '../services/stats.service.js';
 import { PREFERRED_DURATIONS, CAREER_DURATION_THRESHOLD } from '../constants/domain.js';
 
 function filterByDuration(careers, durationType, index, accumulator) {
@@ -17,8 +16,6 @@ function filterByDuration(careers, durationType, index, accumulator) {
 
   return filterByDuration(careers, durationType, index + 1, accumulator);
 }
-
-const statsService = new StatsService();
 
 export async function getAllFaculties() {
   return Faculty.find();
@@ -38,5 +35,6 @@ export async function getCareersByDuration(durationType) {
 }
 
 export async function getCareerStatistics(careerId) {
-  return statsService.getCareerStatistics(careerId);
+  const { StatsService } = await import('../services/stats.service.js');
+  return new StatsService().getCareerStatistics(careerId);
 }
