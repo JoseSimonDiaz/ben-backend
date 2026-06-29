@@ -34,15 +34,18 @@ function collectValidationMessages(entries, index, accumulator) {
 }
 
 function sendErrorDevelopment(error, request, response) {
-  response.status(error.statusCode).json({
-    message: error.message,
+  const statusCode = error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR;
+  response.status(statusCode).json({
+    message: error.message || 'Unknown error',
     stack: error.stack,
   });
 }
 
 function sendErrorProduction(error, request, response) {
+  const statusCode = error.statusCode || HTTP_STATUS.INTERNAL_SERVER_ERROR;
+
   if (error.isOperational) {
-    response.status(error.statusCode).json({
+    response.status(statusCode).json({
       message: error.message,
     });
     return;
