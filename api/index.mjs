@@ -3,25 +3,21 @@ import serverless from 'serverless-http';
 import app from '../src/app.js';
 import { config } from '../src/config/index.js';
 
-let cachedConnection = false;
+let connectionAttempted = false;
 
-async function connectDatabase() {
-  if (cachedConnection) return;
+function connectDatabase() {
+  if (connectionAttempted) return;
 
-  try {
-    await mongoose.connect(config.MONGODB_URI, {
-      tlsInsecure: true,
-      serverSelectionTimeoutMS: 5000,
-    });
-    cachedConnection = true;
-  } catch {
-    cachedConnection = false;
-  }
+  connectionAttempted = true;
+  mongoose.connect(config.MONGODB_URI, {
+    tlsInsecure: true,
+    serverSelectionTimeoutMS: 5000,
+  }).catch(() => {});
 }
 
 const handler = serverless(app);
 
 export default async function benHandler(request, response) {
-  await connectDatabase();
+  connectDatabase();
   return handler(request, response);
 }
