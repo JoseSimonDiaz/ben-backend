@@ -8,13 +8,13 @@ const careerExperienceSchema = new mongoose.Schema({
   },
   collaboratorName: {
     type: String,
-    required: true,
+    default: '',
   },
   collaboratorEmail: {
     type: String,
     lowercase: true,
     trim: true,
-    required: true,
+    default: null,
   },
   university: {
     type: String,
@@ -74,7 +74,6 @@ const careerExperienceSchema = new mongoose.Schema({
   },
 });
 
-careerExperienceSchema.index({ careerId: 1, collaboratorEmail: 1 }, { unique: true });
-careerExperienceSchema.index({ careerId: 1 });
+careerExperienceSchema.index({ careerId: 1, collaboratorEmail: 1 });
 
 export const CareerExperience = mongoose.model('CareerExperience', careerExperienceSchema);

@@ -27,13 +27,15 @@ export class ExperienceController {
       mostDifficultSubjects,
     } = request.body;
 
-    const existingExperience = await this.experienceService.findOne(careerId, collaboratorEmail);
+    if (collaboratorEmail) {
+      const existingExperience = await this.experienceService.findOne(careerId, collaboratorEmail);
 
-    if (existingExperience) {
-      response.status(HTTP_STATUS.CONFLICT).json({
-        message: 'You have already submitted an experience for this career',
-      });
-      return;
+      if (existingExperience) {
+        response.status(HTTP_STATUS.CONFLICT).json({
+          message: 'You have already submitted an experience for this career',
+        });
+        return;
+      }
     }
 
     const createdExperience = await this.experienceService.create({
