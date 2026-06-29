@@ -2,8 +2,8 @@ import { body } from 'express-validator';
 
 export const experienceSubmissionValidation = [
   body('careerId').isMongoId(),
-  body('collaboratorName').isString().trim().notEmpty(),
-  body('collaboratorEmail').isEmail(),
+  body('collaboratorName').optional({ values: 'falsy' }).isString().trim(),
+  body('collaboratorEmail').optional({ values: 'falsy' }).isEmail(),
 
   body('university')
     .optional()
