@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { Faculty } from '../models/Faculty.model.js';
 import { Career } from '../models/Career.model.js';
 import { Question } from '../models/Question.model.js';
 import { QuizSession } from '../models/QuizSession.model.js';
@@ -7,9 +6,8 @@ import { CareerExperience } from '../models/CareerExperience.model.js';
 
 export class StatsService {
   async getDashboardStats() {
-    const [totalFaculties, totalCareers, totalQuestions, questionsByTarget, totalQuizSessions, totalExperiences] =
+    const [totalCareers, totalQuestions, questionsByTarget, totalQuizSessions, totalExperiences] =
       await Promise.all([
-        Faculty.countDocuments(),
         Career.countDocuments(),
         Question.countDocuments(),
         Question.aggregate([
@@ -21,7 +19,6 @@ export class StatsService {
       ]);
 
     return {
-      totalFaculties,
       totalCareers,
       totalQuestions,
       questionsByTarget,
@@ -29,6 +26,7 @@ export class StatsService {
       totalExperiences,
     };
   }
+
   async getCareerStatistics(careerId) {
     const targetId = new mongoose.Types.ObjectId(careerId);
 

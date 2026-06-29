@@ -1,16 +1,5 @@
 import mongoose from 'mongoose';
 
-const hardestSubjectSchema = new mongoose.Schema({
-  name: { type: String },
-  reason: { type: String },
-  preparationTip: { type: String },
-}, { _id: false });
-
-const jobProspectSchema = new mongoose.Schema({
-  title: { type: String },
-  salaryRange: { type: String },
-}, { _id: false });
-
 const careerExperienceSchema = new mongoose.Schema({
   careerId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -33,19 +22,57 @@ const careerExperienceSchema = new mongoose.Schema({
   actualCompletionTime: {
     type: String,
   },
-  perceivedDropoutRate: {
+  university: {
+    type: String,
+    default: '',
+  },
+  graduated: {
+    type: String,
+    enum: ['yes', 'no', 'in_progress'],
+    default: 'yes',
+  },
+  difficultyRating: {
     type: Number,
-    min: 0,
-    max: 100,
+    min: 1,
+    max: 10,
+    default: null,
+  },
+  jobMarketRating: {
+    type: Number,
+    min: 1,
+    max: 5,
+    default: null,
+  },
+  foundRelatedJob: {
+    type: String,
+    enum: ['yes', 'no', 'partial'],
+    default: null,
+  },
+  bestAspects: {
+    type: [String],
+    default: [],
+  },
+  worstAspects: {
+    type: [String],
+    default: [],
+  },
+  importantSkills: {
+    type: [String],
+    default: [],
   },
   hardestSubjects: {
-    type: [hardestSubjectSchema],
+    type: [String],
+    default: [],
   },
-  jobProspects: {
-    type: [jobProspectSchema],
+  recommendationRating: {
+    type: Number,
+    min: 1,
+    max: 5,
+    default: null,
   },
   reviewText: {
     type: String,
+    default: '',
   },
   createdAt: {
     type: Date,

@@ -16,6 +16,15 @@ export class ExperienceController {
       hardestSubjects,
       jobProspects,
       reviewText,
+      favoriteHighSchoolSubjects,
+      freeTimeActivities,
+      enjoyedActivities,
+      preferredWorkAreas,
+      importantSkills,
+      personalityTraits,
+      dailyActivities,
+      recommendationRating,
+      mostDifficultSubjects,
     } = request.body;
 
     const existingExperience = await this.experienceService.findOne(careerId, collaboratorEmail);
@@ -37,6 +46,15 @@ export class ExperienceController {
       hardestSubjects,
       jobProspects,
       reviewText,
+      favoriteHighSchoolSubjects,
+      freeTimeActivities,
+      enjoyedActivities,
+      preferredWorkAreas,
+      importantSkills,
+      personalityTraits,
+      dailyActivities,
+      recommendationRating,
+      mostDifficultSubjects,
     });
 
     response.status(HTTP_STATUS.CREATED).json(createdExperience);
