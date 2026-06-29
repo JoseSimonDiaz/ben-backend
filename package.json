@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
+    "seed:careers": "node scripts/seedCareers.js",
     "test:db": "node bin/test-db.mjs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
     "lint": "eslint src/ tests/"
