@@ -16,12 +16,6 @@ const careerExperienceSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
-  graduationYear: {
-    type: Number,
-  },
-  actualCompletionTime: {
-    type: String,
-  },
   university: {
     type: String,
     default: '',
