@@ -3,8 +3,6 @@ import { decisionPrompt } from '../constants/prompts/decision.prompt.js';
 import { formatterPrompt } from '../constants/prompts/formatter.prompt.js';
 import { personalityPrompt } from '../constants/prompts/personality.prompt.js';
 import {
-  getAllFaculties,
-  getCareersByFaculty,
   getCareerById,
   getCareersByDuration,
   getCareerStatistics,
@@ -17,8 +15,6 @@ import { AppError } from '../utils/AppError.js';
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 
 const tools = {
-  getAllFaculties,
-  getCareersByFaculty,
   getCareerById,
   getCareersByDuration,
   getCareerStatistics,

@@ -57,8 +57,7 @@ npm run lint   # run linter
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/api/v1/questions?target=student\|graduate` | List questions by target |
-| GET | `/api/v1/faculties` | List all faculties |
-| GET | `/api/v1/careers` | List all careers (with faculty) |
+| GET | `/api/v1/careers` | List all careers |
 | POST | `/api/v1/quiz` | Submit quiz answers |
 | POST | `/api/v1/experiences` | Submit graduate experience |
 | POST | `/api/v1/chat` | AI assistant chat |
@@ -69,8 +68,6 @@ npm run lint   # run linter
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | `/api/v1/admin/stats` | Dashboard statistics |
-| GET/POST | `/api/v1/admin/faculties` | List / Create faculties |
-| GET/PUT/DEL | `/api/v1/admin/faculties/:id` | CRUD single faculty |
 | GET/POST | `/api/v1/admin/careers` | List / Create careers |
 | GET/PUT/DEL | `/api/v1/admin/careers/:id` | CRUD single career |
 | GET/POST | `/api/v1/admin/questions` | List / Create questions |
@@ -84,7 +81,7 @@ src/
 ├── constants/         # Domain values, error types, prompts
 ├── controllers/       # Route handlers (quiz, career, experience, admin, chat, public)
 ├── middlewares/       # Validation, auth, error handling
-├── models/            # Mongoose schemas (6 models)
+├── models/            # Mongoose schemas (5 models)
 ├── routes/v1/         # Express routers
 ├── services/          # Business logic (matching, stats, AI, etc.)
 ├── tools/             # AI agent tools (career + experience queries)

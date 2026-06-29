@@ -1,9 +1,8 @@
 import { HTTP_STATUS } from '../utils/httpStatus.js';
 
 export class AdminController {
-  constructor(questionService, facultyService, careerService, statsService) {
+  constructor(questionService, careerService, statsService) {
     this.questionService = questionService;
-    this.facultyService = facultyService;
     this.careerService = careerService;
     this.statsService = statsService;
   }
@@ -12,60 +11,6 @@ export class AdminController {
     const stats = await this.statsService.getDashboardStats();
 
     response.status(HTTP_STATUS.OK).json(stats);
-  };
-
-  getAllFaculties = async (_request, response) => {
-    const faculties = await this.facultyService.findAll();
-
-    response.status(HTTP_STATUS.OK).json(faculties);
-  };
-
-  getFacultyById = async (request, response) => {
-    const { id } = request.params;
-
-    const faculty = await this.facultyService.findById(id);
-
-    if (!faculty) {
-      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Faculty not found' });
-      return;
-    }
-
-    response.status(HTTP_STATUS.OK).json(faculty);
-  };
-
-  createFaculty = async (request, response) => {
-    const { name, description } = request.body;
-
-    const createdFaculty = await this.facultyService.create({ name, description });
-
-    response.status(HTTP_STATUS.CREATED).json(createdFaculty);
-  };
-
-  updateFaculty = async (request, response) => {
-    const { id } = request.params;
-    const { name, description } = request.body;
-
-    const updatedFaculty = await this.facultyService.update(id, { name, description });
-
-    if (!updatedFaculty) {
-      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Faculty not found' });
-      return;
-    }
-
-    response.status(HTTP_STATUS.OK).json(updatedFaculty);
-  };
-
-  deleteFaculty = async (request, response) => {
-    const { id } = request.params;
-
-    const deletedFaculty = await this.facultyService.deleteById(id);
-
-    if (!deletedFaculty) {
-      response.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Faculty not found' });
-      return;
-    }
-
-    response.status(HTTP_STATUS.NO_CONTENT).send();
   };
 
   getAllCareers = async (_request, response) => {
@@ -89,7 +34,6 @@ export class AdminController {
 
   createCareer = async (request, response) => {
     const {
-      facultyId,
       name,
       description,
       officialDuration,
@@ -99,7 +43,6 @@ export class AdminController {
     } = request.body;
 
     const createdCareer = await this.careerService.create({
-      facultyId,
       name,
       description,
       officialDuration,
@@ -114,7 +57,6 @@ export class AdminController {
   updateCareer = async (request, response) => {
     const { id } = request.params;
     const {
-      facultyId,
       name,
       description,
       officialDuration,
@@ -124,7 +66,6 @@ export class AdminController {
     } = request.body;
 
     const updatedCareer = await this.careerService.update(id, {
-      facultyId,
       name,
       description,
       officialDuration,

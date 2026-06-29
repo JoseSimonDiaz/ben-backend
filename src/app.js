@@ -11,10 +11,8 @@ import { PublicController } from './controllers/public.controller.js';
 
 import { MatchingService } from './services/matching.service.js';
 import { StatsService } from './services/stats.service.js';
-import { EmailService } from './services/email.service.js';
 import { AIService } from './services/ai.service.js';
 import { QuestionService } from './services/question.service.js';
-import { FacultyService } from './services/faculty.service.js';
 import { CareerService } from './services/career.service.js';
 import { ExperienceService } from './services/experience.service.js';
 
@@ -42,21 +40,19 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-const emailService = new EmailService();
 const matchingService = new MatchingService();
 const statsService = new StatsService();
 const aiService = new AIService(config.API_AGENT_IA_KEY);
 const questionService = new QuestionService();
-const facultyService = new FacultyService();
 const careerService = new CareerService();
 const experienceService = new ExperienceService();
 
-const quizController = new QuizController(matchingService, emailService);
+const quizController = new QuizController(matchingService);
 const careerController = new CareerController(statsService, careerService);
 const experienceController = new ExperienceController(experienceService);
-const adminController = new AdminController(questionService, facultyService, careerService, statsService);
+const adminController = new AdminController(questionService, careerService, statsService);
 const chatController = new ChatController(aiService);
-const publicController = new PublicController(questionService, facultyService, careerService);
+const publicController = new PublicController(questionService, careerService);
 
 app.use('/api/v1/quiz', validate(quizSubmissionValidation), createQuizRouter(quizController));
 app.use('/api/v1/careers', createCareerRouter(careerController));

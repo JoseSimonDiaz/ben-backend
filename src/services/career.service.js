@@ -2,11 +2,11 @@ import { Career } from '../models/Career.model.js';
 
 export class CareerService {
   async findAll() {
-    return Career.find().populate('facultyId', 'name').sort({ name: 1 });
+    return Career.find().sort({ name: 1 });
   }
 
   async findById(id) {
-    return Career.findById(id).populate('facultyId', 'name');
+    return Career.findById(id);
   }
 
   async create(fields) {
@@ -14,7 +14,7 @@ export class CareerService {
   }
 
   async update(id, fields) {
-    return Career.findByIdAndUpdate(id, fields, { new: true, runValidators: true }).populate('facultyId', 'name');
+    return Career.findByIdAndUpdate(id, fields, { new: true, runValidators: true });
   }
 
   async deleteById(id) {

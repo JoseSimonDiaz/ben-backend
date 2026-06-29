@@ -5,25 +5,14 @@ export const mongoIdParam = [
   param('id').isMongoId().withMessage('Invalid ID'),
 ];
 
-export const facultyCreationValidation = [
-  body('name').isString().trim().notEmpty(),
-];
-
-export const facultyUpdateValidation = [
-  body('name').optional().isString().trim().notEmpty(),
-  body('description').optional().isString(),
-];
-
 export const careerCreationValidation = [
   body('name').isString().trim().notEmpty(),
-  body('facultyId').isMongoId(),
   body('officialDuration').isString().notEmpty(),
   body('durationYears').isInt({ min: 1 }),
 ];
 
 export const careerUpdateValidation = [
   body('name').optional().isString().trim().notEmpty(),
-  body('facultyId').optional().isMongoId(),
   body('officialDuration').optional().isString().notEmpty(),
   body('durationYears').optional().isInt({ min: 1 }),
   body('keywords').optional().isArray(),
