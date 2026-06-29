@@ -1,24 +1,4 @@
 import mongoose from 'mongoose';
-import {
-  HIGH_SCHOOL_SUBJECTS,
-  FREE_TIME_ACTIVITIES,
-  ENJOYED_ACTIVITIES,
-  PREFERRED_WORK_AREAS,
-  IMPORTANT_SKILLS,
-  PERSONALITY_TRAITS,
-  DAILY_ACTIVITIES,
-} from '../constants/domain.js';
-
-const hardestSubjectSchema = new mongoose.Schema({
-  name: { type: String },
-  reason: { type: String },
-  preparationTip: { type: String },
-}, { _id: false });
-
-const jobProspectSchema = new mongoose.Schema({
-  title: { type: String },
-  salaryRange: { type: String },
-}, { _id: false });
 
 const careerExperienceSchema = new mongoose.Schema({
   careerId: {
@@ -42,53 +22,46 @@ const careerExperienceSchema = new mongoose.Schema({
   actualCompletionTime: {
     type: String,
   },
-  perceivedDropoutRate: {
-    type: Number,
-    min: 0,
-    max: 100,
-  },
-  hardestSubjects: {
-    type: [hardestSubjectSchema],
-  },
-  jobProspects: {
-    type: [jobProspectSchema],
-  },
-  reviewText: {
+  university: {
     type: String,
+    default: '',
   },
-  favoriteHighSchoolSubjects: {
+  graduated: {
+    type: String,
+    enum: ['yes', 'no', 'in_progress'],
+    default: 'yes',
+  },
+  difficultyRating: {
+    type: Number,
+    min: 1,
+    max: 10,
+    default: null,
+  },
+  jobMarketRating: {
+    type: Number,
+    min: 1,
+    max: 5,
+    default: null,
+  },
+  foundRelatedJob: {
+    type: String,
+    enum: ['yes', 'no', 'partial'],
+    default: null,
+  },
+  bestAspects: {
     type: [String],
-    enum: Object.values(HIGH_SCHOOL_SUBJECTS),
     default: [],
   },
-  freeTimeActivities: {
+  worstAspects: {
     type: [String],
-    enum: Object.values(FREE_TIME_ACTIVITIES),
-    default: [],
-  },
-  enjoyedActivities: {
-    type: [String],
-    enum: Object.values(ENJOYED_ACTIVITIES),
-    default: [],
-  },
-  preferredWorkAreas: {
-    type: [String],
-    enum: Object.values(PREFERRED_WORK_AREAS),
     default: [],
   },
   importantSkills: {
     type: [String],
-    enum: Object.values(IMPORTANT_SKILLS),
     default: [],
   },
-  personalityTraits: {
+  hardestSubjects: {
     type: [String],
-    enum: Object.values(PERSONALITY_TRAITS),
-    default: [],
-  },
-  dailyActivities: {
-    type: [String],
-    enum: Object.values(DAILY_ACTIVITIES),
     default: [],
   },
   recommendationRating: {
@@ -97,7 +70,7 @@ const careerExperienceSchema = new mongoose.Schema({
     max: 5,
     default: null,
   },
-  mostDifficultSubjects: {
+  reviewText: {
     type: String,
     default: '',
   },
