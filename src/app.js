@@ -62,6 +62,14 @@ app.use('/api/v1', createPublicRouter(publicController));
 
 app.use('/api/v1/admin', adminAuthentication, createAdminRouter(adminController));
 
+app.get('/', (request, response) => {
+  response.json({ status: 'ok', service: 'Ben API', version: '1.0.0' });
+});
+
+app.get('/api/v1', (request, response) => {
+  response.json({ status: 'ok', service: 'Ben API', version: '1.0.0' });
+});
+
 app.use(notFoundHandler);
 app.use(errorHandler);
 
