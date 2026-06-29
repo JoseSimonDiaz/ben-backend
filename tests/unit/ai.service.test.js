@@ -23,8 +23,6 @@ jest.unstable_mockModule('../../src/constants/prompts/personality.prompt.js', ()
 }));
 
 jest.unstable_mockModule('../../src/tools/career.tools.js', () => ({
-  getAllFaculties: jest.fn(),
-  getCareersByFaculty: jest.fn(),
   getCareerById: jest.fn(),
   getCareersByDuration: jest.fn(),
   getCareerStatistics: jest.fn(),

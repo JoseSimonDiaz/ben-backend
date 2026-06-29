@@ -1,11 +1,6 @@
 import mongoose from 'mongoose';
 
 const careerSchema = new mongoose.Schema({
-  facultyId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Faculty',
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -33,7 +28,6 @@ const careerSchema = new mongoose.Schema({
   },
 });
 
-careerSchema.index({ facultyId: 1 });
 careerSchema.index({ durationYears: 1 });
 
 export const Career = mongoose.model('Career', careerSchema);

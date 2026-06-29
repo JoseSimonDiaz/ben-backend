@@ -36,16 +36,10 @@ const quizSessionSchema = new mongoose.Schema({
   matchPercentage: {
     type: Number,
   },
-  followUpSent: {
-    type: Boolean,
-    default: false,
-  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
-
-quizSessionSchema.index({ followUpSent: 1, createdAt: 1, email: 1 });
 
 export const QuizSession = mongoose.model('QuizSession', quizSessionSchema);

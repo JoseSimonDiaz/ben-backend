@@ -1,4 +1,3 @@
-import { Faculty } from '../models/Faculty.model.js';
 import { Career } from '../models/Career.model.js';
 import { PREFERRED_DURATIONS, CAREER_DURATION_THRESHOLD } from '../constants/domain.js';
 
@@ -17,16 +16,8 @@ function filterByDuration(careers, durationType, index, accumulator) {
   return filterByDuration(careers, durationType, index + 1, accumulator);
 }
 
-export async function getAllFaculties() {
-  return Faculty.find();
-}
-
-export async function getCareersByFaculty(facultyId) {
-  return Career.find({ facultyId });
-}
-
 export async function getCareerById(careerId) {
-  return Career.findById(careerId).populate('facultyId');
+  return Career.findById(careerId);
 }
 
 export async function getCareersByDuration(durationType) {
